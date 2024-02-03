@@ -6,6 +6,8 @@ public class Player : MonoBehaviour
 {
     // Start is called before the first frame update
     private Rigidbody rigidBody;
+    private GameObject focalPoint;
+
     public int jumpForce = 10;
     public int speed = 2;
     public int rotSpeed = 1;
@@ -14,6 +16,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
+        focalPoint = GameObject.Find("Focal Point");
     }
 
     // Update is called once per frame
@@ -31,21 +34,7 @@ public class Player : MonoBehaviour
         else
             timer += Time.deltaTime;
 
-        if(Input.GetKey(KeyCode.W))
-        {
-            rigidBody.AddForce(Vector3.forward * speed * Time.deltaTime, ForceMode.Impulse);
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            rigidBody.AddForce(Vector3.back * speed * Time.deltaTime, ForceMode.Impulse);
-        }
-        if(Input.GetKey(KeyCode.A))
-        {
-            rigidBody.AddTorque(Vector3.down * rotSpeed * Time.deltaTime, ForceMode.Impulse);
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            rigidBody.AddTorque(Vector3.up * rotSpeed * Time.deltaTime, ForceMode.Impulse);
-        }
+        float verticalInput = Input.GetAxis("Vertical");
+        this.transform.Translate(verticalInput * focalPoint.transform.forward * speed * Time.deltaTime);
     }
 }
